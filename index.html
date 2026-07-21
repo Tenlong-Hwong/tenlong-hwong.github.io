@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Tenlong Hwong — design engineer at RTX, gamer, and longtime citizen of the internet. Find me on Steam, Twitch, YouTube, and more.">
+  <meta name="description" content="Tenlong Hwong — design engineer at RTX (Raytheon Technologies). Computer engineering, cable design, Creo, and Git.">
   <meta name="color-scheme" content="dark">
   <title>Tenlong Hwong</title>
   <style>
@@ -87,12 +87,12 @@
     .stats-note {
       margin-top: 0.75rem;
       font-size: 0.8rem;
-      color: #6b7683;
+      color: #7f8b9a;
     }
 
     .links {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
       gap: 0.75rem;
       list-style: none;
     }
@@ -124,12 +124,33 @@
       color: #9aa4b2;
     }
 
+    .reveal {
+      animation: reveal 0.6s ease both;
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        animation: none;
+      }
+    }
+
     footer {
       margin-top: 4rem;
       padding-top: 1.5rem;
       border-top: 1px solid #232a33;
       font-size: 0.85rem;
-      color: #6b7683;
+      color: #7f8b9a;
     }
   </style>
 </head>
@@ -137,62 +158,46 @@
   <div class="container">
     <header>
       <h1>Tenlong Hwong</h1>
-      <p class="tagline">Design engineer by day; gamer, achievement hunter, and longtime citizen of the internet by night.</p>
+      <p class="tagline">Design engineer at RTX (Raytheon Technologies) &middot; Massachusetts</p>
     </header>
 
-    <section class="about" aria-label="About">
+    <section aria-label="About">
       <h2>About</h2>
       <p>
-        I'm Tenlong — a Massachusetts-based gamer whose online trail goes back to 2008: a
-        Roblox account, a Gaia Online guild, a YouTube channel of stick-figure
-        animations and Lego movie trailers, and just about every era of PC
-        gaming since.
-      </p>
-      <p>
-        These days you'll mostly find me on Steam chasing 100% completions, deep
-        in games like Where Winds Meet and Lost Ark, or occasionally streaming on
-        Twitch. I also make the odd Wallpaper Engine wallpaper.
+        I'm Tenlong — a computer engineer from Massachusetts. I like building
+        things that are simple, sturdy, and understandable, whether that's a
+        cable harness modeled in Creo or a dependency-free web page like this
+        one.
       </p>
     </section>
 
     <section aria-label="Work">
       <h2>Work</h2>
       <p>
-        By day I'm a design engineer at RTX (Raytheon Technologies), where I've
-        been since 2023 — cable design, Creo, and Git are the daily toolkit.
+        Design engineer at RTX (Raytheon Technologies) since 2023 — cable
+        design, Creo, and Git are the daily toolkit.
       </p>
       <p>
-        I hold a B.S. in Computer Engineering from the University of
-        Massachusetts Lowell (2022).
+        B.S. in Computer Engineering, University of Massachusetts Lowell (2022).
       </p>
     </section>
 
-    <section aria-label="Steam stats">
-      <h2>By the numbers</h2>
-      <div class="stats">
-        <div class="stat">
-          <div class="value">154</div>
-          <div class="label">Games on Steam</div>
-        </div>
-        <div class="stat">
-          <div class="value">2,835</div>
-          <div class="label">Achievements earned</div>
-        </div>
-        <div class="stat">
-          <div class="value">18</div>
-          <div class="label">Games perfected</div>
-        </div>
-        <div class="stat">
-          <div class="value">17+</div>
-          <div class="label">Years online</div>
-        </div>
-      </div>
-      <p class="stats-note">Steam stats as of July 2026.</p>
+    <section aria-label="Projects">
+      <h2>Projects</h2>
+      <ul class="links" role="list">
+        <li>
+          <a href="https://github.com/Tenlong-Hwong/tenlong-hwong.github.io" rel="noopener">
+            <span class="platform">This website</span>
+            <span class="handle">plain HTML/CSS &middot; Git &middot; GitHub Pages</span>
+          </a>
+        </li>
+      </ul>
+      <p class="stats-note">More to come.</p>
     </section>
 
     <section aria-label="Links">
-      <h2>Find me around the web</h2>
-      <ul class="links">
+      <h2>Find me</h2>
+      <ul class="links" role="list">
         <li>
           <a href="https://www.linkedin.com/in/tenlong-hwong-364553219/" rel="me noopener">
             <span class="platform">LinkedIn</span>
@@ -205,60 +210,59 @@
             <span class="handle">Tenlong-Hwong</span>
           </a>
         </li>
-        <li>
-          <a href="https://steamcommunity.com/id/tenlong/" rel="me noopener">
-            <span class="platform">Steam</span>
-            <span class="handle">tenlong</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.twitch.tv/tenlong" rel="me noopener">
-            <span class="platform">Twitch</span>
-            <span class="handle">tenlong</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.youtube.com/@TenlongHwong" rel="me noopener">
-            <span class="platform">YouTube</span>
-            <span class="handle">@TenlongHwong</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.instagram.com/tenlong10/" rel="me noopener">
-            <span class="platform">Instagram</span>
-            <span class="handle">@tenlong10</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.facebook.com/tenlonghwong" rel="me noopener">
-            <span class="platform">Facebook</span>
-            <span class="handle">tenlonghwong</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://x.com/Tenlong10" rel="me noopener">
-            <span class="platform">X (Twitter)</span>
-            <span class="handle">@Tenlong10</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.gaiaonline.com/profiles/tenlong/28790369/" rel="me noopener">
-            <span class="platform">Gaia Online</span>
-            <span class="handle">tenlong</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.roblox.com/users/1871817/profile" rel="me noopener">
-            <span class="platform">Roblox</span>
-            <span class="handle">Tenlong</span>
-          </a>
-        </li>
       </ul>
     </section>
 
+    <div id="extra"></div>
+
     <footer>
-      © 2026 Tenlong Hwong · plain HTML, hosted on GitHub Pages
+      © 2026 Tenlong Hwong &middot; plain HTML, hosted on GitHub Pages
     </footer>
   </div>
+
+  <script>
+    (function () {
+      var SEQ = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight'];
+      var PAYLOAD = 'PGRpdiBkYXRhLWFsdC10YWdsaW5lPSJEZXNpZ24gZW5naW5lZXIgYnkgZGF5OyBnYW1lciwgYWNoaWV2ZW1lbnQgaHVudGVyLCBhbmQgbG9uZ3RpbWUgY2l0aXplbiBvZiB0aGUgaW50ZXJuZXQgYnkgbmlnaHQuIj4KICA8c2VjdGlvbiBjbGFzcz0icmV2ZWFsIiBhcmlhLWxhYmVsPSJUaGUgcGVyc29uYWwgc2lkZSI+CiAgICA8aDI+Q2hlYXQgY29kZSBhY2NlcHRlZDwvaDI+CiAgICA8cD4KICAgICAgWW91IGZvdW5kIHRoZSBuaWdodCBzaGlmdC4gTXkgb25saW5lIHRyYWlsIGdvZXMgYmFjayB0byAyMDA4OiBhIFJvYmxveAogICAgICBhY2NvdW50LCBhIEdhaWEgT25saW5lIGd1aWxkLCBhIFlvdVR1YmUgY2hhbm5lbCBvZiBzdGljay1maWd1cmUgYW5pbWF0aW9ucwogICAgICBhbmQgTGVnbyBtb3ZpZSB0cmFpbGVycywgYW5kIGp1c3QgYWJvdXQgZXZlcnkgZXJhIG9mIFBDIGdhbWluZyBzaW5jZS4KICAgIDwvcD4KICAgIDxwPgogICAgICBUaGVzZSBkYXlzIHlvdSdsbCBtb3N0bHkgZmluZCBtZSBvbiBTdGVhbSBjaGFzaW5nIDEwMCUgY29tcGxldGlvbnMsIGRlZXAKICAgICAgaW4gZ2FtZXMgbGlrZSBXaGVyZSBXaW5kcyBNZWV0IGFuZCBMb3N0IEFyaywgb3Igb2NjYXNpb25hbGx5IHN0cmVhbWluZyBvbgogICAgICBUd2l0Y2guIEkgYWxzbyBtYWtlIHRoZSBvZGQgV2FsbHBhcGVyIEVuZ2luZSB3YWxscGFwZXIuCiAgICA8L3A+CiAgPC9zZWN0aW9uPgoKICA8c2VjdGlvbiBjbGFzcz0icmV2ZWFsIiBhcmlhLWxhYmVsPSJTdGVhbSBzdGF0cyI+CiAgICA8aDI+QnkgdGhlIG51bWJlcnM8L2gyPgogICAgPGRpdiBjbGFzcz0ic3RhdHMiPgogICAgICA8ZGl2IGNsYXNzPSJzdGF0Ij4KICAgICAgICA8ZGl2IGNsYXNzPSJ2YWx1ZSI+MTU0PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0ibGFiZWwiPkdhbWVzIG9uIFN0ZWFtPC9kaXY+CiAgICAgIDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJzdGF0Ij4KICAgICAgICA8ZGl2IGNsYXNzPSJ2YWx1ZSI+Miw4MzU8L2Rpdj4KICAgICAgICA8ZGl2IGNsYXNzPSJsYWJlbCI+QWNoaWV2ZW1lbnRzIGVhcm5lZDwvZGl2PgogICAgICA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0ic3RhdCI+CiAgICAgICAgPGRpdiBjbGFzcz0idmFsdWUiPjE4PC9kaXY+CiAgICAgICAgPGRpdiBjbGFzcz0ibGFiZWwiPkdhbWVzIHBlcmZlY3RlZDwvZGl2PgogICAgICA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0ic3RhdCI+CiAgICAgICAgPGRpdiBjbGFzcz0idmFsdWUiPjE3KzwvZGl2PgogICAgICAgIDxkaXYgY2xhc3M9ImxhYmVsIj5ZZWFycyBvbmxpbmU8L2Rpdj4KICAgICAgPC9kaXY+CiAgICA8L2Rpdj4KICAgIDxwIGNsYXNzPSJzdGF0cy1ub3RlIj5TdGVhbSBzdGF0cyBhcyBvZiBKdWx5IDIwMjYuPC9wPgogIDwvc2VjdGlvbj4KCiAgPHNlY3Rpb24gY2xhc3M9InJldmVhbCIgYXJpYS1sYWJlbD0iUGVyc29uYWwgbGlua3MiPgogICAgPGgyPkZpbmQgbWUgYWZ0ZXIgaG91cnM8L2gyPgogICAgPHVsIGNsYXNzPSJsaW5rcyIgcm9sZT0ibGlzdCI+CiAgICAgIDxsaT4KICAgICAgICA8YSBocmVmPSJodHRwczovL3N0ZWFtY29tbXVuaXR5LmNvbS9pZC90ZW5sb25nLyIgcmVsPSJtZSBub29wZW5lciI+CiAgICAgICAgICA8c3BhbiBjbGFzcz0icGxhdGZvcm0iPlN0ZWFtPC9zcGFuPgogICAgICAgICAgPHNwYW4gY2xhc3M9ImhhbmRsZSI+dGVubG9uZzwvc3Bhbj4KICAgICAgICA8L2E+CiAgICAgIDwvbGk+CiAgICAgIDxsaT4KICAgICAgICA8YSBocmVmPSJodHRwczovL3d3dy50d2l0Y2gudHYvdGVubG9uZyIgcmVsPSJtZSBub29wZW5lciI+CiAgICAgICAgICA8c3BhbiBjbGFzcz0icGxhdGZvcm0iPlR3aXRjaDwvc3Bhbj4KICAgICAgICAgIDxzcGFuIGNsYXNzPSJoYW5kbGUiPnRlbmxvbmc8L3NwYW4+CiAgICAgICAgPC9hPgogICAgICA8L2xpPgogICAgICA8bGk+CiAgICAgICAgPGEgaHJlZj0iaHR0cHM6Ly93d3cueW91dHViZS5jb20vQFRlbmxvbmdId29uZyIgcmVsPSJtZSBub29wZW5lciI+CiAgICAgICAgICA8c3BhbiBjbGFzcz0icGxhdGZvcm0iPllvdVR1YmU8L3NwYW4+CiAgICAgICAgICA8c3BhbiBjbGFzcz0iaGFuZGxlIj5AVGVubG9uZ0h3b25nPC9zcGFuPgogICAgICAgIDwvYT4KICAgICAgPC9saT4KICAgICAgPGxpPgogICAgICAgIDxhIGhyZWY9Imh0dHBzOi8vd3d3Lmluc3RhZ3JhbS5jb20vdGVubG9uZzEwLyIgcmVsPSJtZSBub29wZW5lciI+CiAgICAgICAgICA8c3BhbiBjbGFzcz0icGxhdGZvcm0iPkluc3RhZ3JhbTwvc3Bhbj4KICAgICAgICAgIDxzcGFuIGNsYXNzPSJoYW5kbGUiPkB0ZW5sb25nMTA8L3NwYW4+CiAgICAgICAgPC9hPgogICAgICA8L2xpPgogICAgICA8bGk+CiAgICAgICAgPGEgaHJlZj0iaHR0cHM6Ly93d3cuZmFjZWJvb2suY29tL3Rlbmxvbmdod29uZyIgcmVsPSJtZSBub29wZW5lciI+CiAgICAgICAgICA8c3BhbiBjbGFzcz0icGxhdGZvcm0iPkZhY2Vib29rPC9zcGFuPgogICAgICAgICAgPHNwYW4gY2xhc3M9ImhhbmRsZSI+dGVubG9uZ2h3b25nPC9zcGFuPgogICAgICAgIDwvYT4KICAgICAgPC9saT4KICAgICAgPGxpPgogICAgICAgIDxhIGhyZWY9Imh0dHBzOi8veC5jb20vVGVubG9uZzEwIiByZWw9Im1lIG5vb3BlbmVyIj4KICAgICAgICAgIDxzcGFuIGNsYXNzPSJwbGF0Zm9ybSI+WCAoVHdpdHRlcik8L3NwYW4+CiAgICAgICAgICA8c3BhbiBjbGFzcz0iaGFuZGxlIj5AVGVubG9uZzEwPC9zcGFuPgogICAgICAgIDwvYT4KICAgICAgPC9saT4KICAgICAgPGxpPgogICAgICAgIDxhIGhyZWY9Imh0dHBzOi8vd3d3LmdhaWFvbmxpbmUuY29tL3Byb2ZpbGVzL3RlbmxvbmcvMjg3OTAzNjkvIiByZWw9Im1lIG5vb3BlbmVyIj4KICAgICAgICAgIDxzcGFuIGNsYXNzPSJwbGF0Zm9ybSI+R2FpYSBPbmxpbmU8L3NwYW4+CiAgICAgICAgICA8c3BhbiBjbGFzcz0iaGFuZGxlIj50ZW5sb25nPC9zcGFuPgogICAgICAgIDwvYT4KICAgICAgPC9saT4KICAgICAgPGxpPgogICAgICAgIDxhIGhyZWY9Imh0dHBzOi8vd3d3LnJvYmxveC5jb20vdXNlcnMvMTg3MTgxNy9wcm9maWxlIiByZWw9Im1lIG5vb3BlbmVyIj4KICAgICAgICAgIDxzcGFuIGNsYXNzPSJwbGF0Zm9ybSI+Um9ibG94PC9zcGFuPgogICAgICAgICAgPHNwYW4gY2xhc3M9ImhhbmRsZSI+VGVubG9uZzwvc3Bhbj4KICAgICAgICA8L2E+CiAgICAgIDwvbGk+CiAgICA8L3VsPgogIDwvc2VjdGlvbj4KPC9kaXY+Cg==';
+      var buf = [];
+      var done = false;
+
+      function decode(b64) {
+        var raw = atob(b64);
+        var bytes = new Uint8Array(raw.length);
+        for (var i = 0; i < raw.length; i++) {
+          bytes[i] = raw.charCodeAt(i);
+        }
+        return new TextDecoder('utf-8').decode(bytes);
+      }
+
+      window.addEventListener('keydown', function (e) {
+        if (done || e.repeat) return;
+        buf.push(e.key);
+        if (buf.length > SEQ.length) {
+          buf.shift();
+        }
+        var match = buf.length === SEQ.length && buf.every(function (k, i) {
+          return k === SEQ[i];
+        });
+        if (match) {
+          done = true;
+          var mount = document.getElementById('extra');
+          mount.innerHTML = decode(PAYLOAD);
+          var alt = mount.querySelector('[data-alt-tagline]');
+          if (alt) {
+            document.querySelector('.tagline').textContent = alt.getAttribute('data-alt-tagline');
+          }
+          var first = mount.querySelector('section');
+          if (first) {
+            var smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+            first.setAttribute('tabindex', '-1');
+            first.focus({ preventScroll: true });
+            first.scrollIntoView({ behavior: smooth, block: 'start' });
+          }
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
