@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Personal website of Tenlong Hwong">
+  <meta name="description" content="Tenlong Hwong — gamer, achievement hunter, and longtime citizen of the internet. Find me on Steam, Twitch, YouTube, and more.">
   <meta name="color-scheme" content="dark">
   <title>Tenlong Hwong</title>
   <style>
@@ -18,38 +18,222 @@
     }
 
     body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       background: #0e1116;
       color: #e6e9ef;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       line-height: 1.6;
     }
 
-    main {
-      text-align: center;
-      padding: 2rem;
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 2rem;
     }
 
-    h1 {
-      font-size: clamp(2rem, 6vw, 3.5rem);
+    header h1 {
+      font-size: clamp(2rem, 6vw, 3rem);
       font-weight: 700;
       letter-spacing: -0.02em;
     }
 
-    p {
-      margin-top: 0.75rem;
+    .tagline {
+      margin-top: 0.5rem;
       color: #9aa4b2;
       font-size: 1.125rem;
+    }
+
+    section {
+      margin-top: 3rem;
+    }
+
+    h2 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9aa4b2;
+      margin-bottom: 1rem;
+    }
+
+    .about p + p {
+      margin-top: 1rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .stat {
+      background: #151a21;
+      border: 1px solid #232a33;
+      border-radius: 10px;
+      padding: 1rem;
+    }
+
+    .stat .value {
+      font-size: 1.625rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .stat .label {
+      margin-top: 0.25rem;
+      font-size: 0.85rem;
+      color: #9aa4b2;
+    }
+
+    .stats-note {
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: #6b7683;
+    }
+
+    .links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.75rem;
+      list-style: none;
+    }
+
+    .links a {
+      display: block;
+      background: #151a21;
+      border: 1px solid #232a33;
+      border-radius: 10px;
+      padding: 0.875rem 1rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .links a:hover,
+    .links a:focus-visible {
+      border-color: #7aa2f7;
+      background: #181f28;
+    }
+
+    .links .platform {
+      font-weight: 600;
+    }
+
+    .links .handle {
+      display: block;
+      font-size: 0.85rem;
+      color: #9aa4b2;
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #232a33;
+      font-size: 0.85rem;
+      color: #6b7683;
     }
   </style>
 </head>
 <body>
-  <main>
-    <h1>Tenlong Hwong</h1>
-    <p>Welcome — more coming soon.</p>
-  </main>
+  <div class="container">
+    <header>
+      <h1>Tenlong Hwong</h1>
+      <p class="tagline">Gamer, achievement hunter, longtime citizen of the internet.</p>
+    </header>
+
+    <section class="about" aria-label="About">
+      <h2>About</h2>
+      <p>
+        I'm Tenlong — a US-based gamer whose online trail goes back to the early
+        2010s: a Gaia Online guild, a YouTube channel of stick-figure animations
+        and Lego movie trailers, and just about every era of PC gaming since.
+      </p>
+      <p>
+        These days you'll mostly find me on Steam chasing 100% completions, deep
+        in games like Where Winds Meet and Lost Ark, or occasionally streaming on
+        Twitch. I also make the odd Wallpaper Engine wallpaper.
+      </p>
+    </section>
+
+    <section aria-label="Steam stats">
+      <h2>By the numbers</h2>
+      <div class="stats">
+        <div class="stat">
+          <div class="value">154</div>
+          <div class="label">Games on Steam</div>
+        </div>
+        <div class="stat">
+          <div class="value">2,835</div>
+          <div class="label">Achievements earned</div>
+        </div>
+        <div class="stat">
+          <div class="value">18</div>
+          <div class="label">Games perfected</div>
+        </div>
+        <div class="stat">
+          <div class="value">13+</div>
+          <div class="label">Years online</div>
+        </div>
+      </div>
+      <p class="stats-note">Steam stats as of July 2026.</p>
+    </section>
+
+    <section aria-label="Links">
+      <h2>Find me around the web</h2>
+      <ul class="links">
+        <li>
+          <a href="https://www.linkedin.com/in/tenlong-hwong-364553219/" rel="me noopener">
+            <span class="platform">LinkedIn</span>
+            <span class="handle">tenlong-hwong</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://steamcommunity.com/id/tenlong/" rel="me noopener">
+            <span class="platform">Steam</span>
+            <span class="handle">tenlong</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.twitch.tv/tenlong" rel="me noopener">
+            <span class="platform">Twitch</span>
+            <span class="handle">tenlong</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.youtube.com/@TenlongHwong" rel="me noopener">
+            <span class="platform">YouTube</span>
+            <span class="handle">@TenlongHwong</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/tenlong10/" rel="me noopener">
+            <span class="platform">Instagram</span>
+            <span class="handle">@tenlong10</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.facebook.com/tenlonghwong" rel="me noopener">
+            <span class="platform">Facebook</span>
+            <span class="handle">tenlonghwong</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.gaiaonline.com/profiles/tenlong/28790369/" rel="me noopener">
+            <span class="platform">Gaia Online</span>
+            <span class="handle">tenlong</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.amazon.com/hz/wishlist/ls/2O87Y08E6Z6RY" rel="noopener">
+            <span class="platform">Amazon Wishlist</span>
+            <span class="handle">gift ideas</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <footer>
+      © 2026 Tenlong Hwong · plain HTML, hosted on GitHub Pages
+    </footer>
+  </div>
 </body>
 </html>
