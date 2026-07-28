@@ -1,0 +1,2 @@
+# Installer binaries live next to the page but never in git history.
+*.apk
