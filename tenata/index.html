@@ -187,8 +187,11 @@
     font-size: 0.92rem;
   }
 
-  .navlinks a { color: var(--dim); text-decoration: none; }
-  .navlinks a:hover { color: #E4E8EE; }
+  /* :not(.btn) matters — a bare `.navlinks a` rule outranks `.btn-primary`
+     on specificity and would repaint the Download pill's text grey. */
+  .navlinks a { text-decoration: none; }
+  .navlinks a:not(.btn) { color: var(--dim); }
+  .navlinks a:not(.btn):hover { color: #E4E8EE; }
 
   .topbar .btn { min-height: 38px; padding: 0.35rem 1rem; font-size: 0.9rem; }
 
