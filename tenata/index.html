@@ -762,10 +762,10 @@
   footer a:hover { color: #E4E8EE; }
 
   /* ---------- desktop color compensation ----------
-     Wide-gamut desktop monitors render this palette bluer and more saturated
-     than phones do. Above 900px the violet tones are shifted warmer (hue ~245deg
-     -> ~258deg, slightly less saturated) so a desktop monitor lands closer to
-     what a phone shows.
+     Tenlong's phone (vivid OLED) renders this palette punchier than his desktop
+     monitor, which shows it duller and bluer. Above 900px the violet tones are
+     shifted warmer AND more saturated (hue ~245deg -> ~266deg, sat ~91% -> ~94%,
+     lightness ~74% -> ~72%) so the monitor lands closer to what the phone shows.
 
      TO TUNE: edit only this block. Move the values toward the :root originals
      (#8B80F9 / #4B3FB8 / #241F55 / #3B3480) for a weaker effect, or further from
@@ -773,15 +773,15 @@
      ------------------------------------------------------------------------ */
   @media (min-width: 900px) {
     :root {
-      --accent: #B68AF0;
-      --accent-dim: rgba(182, 138, 240, 0.15);
-      --accent-line: rgba(182, 138, 240, 0.30);
-      --accent-glow: rgba(182, 138, 240, 0.14);
-      --accent-pulse: rgba(182, 138, 240, 0.20);
-      --art-mid: #7C41C0;
-      --art-deep: #391E58;
-      --thumb-top: #5A3486;
-      --thumb-bottom: #391E58;
+      --accent: #AF74FB;
+      --accent-dim: rgba(175, 116, 251, 0.16);
+      --accent-line: rgba(175, 116, 251, 0.32);
+      --accent-glow: rgba(175, 116, 251, 0.15);
+      --accent-pulse: rgba(175, 116, 251, 0.22);
+      --art-mid: #7A25DC;
+      --art-deep: #3D1668;
+      --thumb-top: #5E23A0;
+      --thumb-bottom: #3D1668;
     }
   }
 
