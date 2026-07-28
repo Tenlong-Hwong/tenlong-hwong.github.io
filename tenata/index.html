@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Tenata is a personal Android app that downloads audio from YouTube and plays it from a library on your phone — playlists, likes, synced lyrics, equalizer. No accounts, no ads, no analytics. Version 1.21, installed from an APK.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#121418">
+<title>Tenata — download and play your music, on your phone</title>
+<style>
+  :root {
+    --bg: #121418;
+    --bg-deep: #0E1015;
+    --card: #1B1F27;
+    --card-hi: #222834;
+    --line: #2A303B;
+    --text: #C7CDD6;
+    --dim: #8B94A3;
+    --accent: #8B80F9;
+    --accent-dim: rgba(139, 128, 249, 0.14);
+    --g1: #FF5C8A;
+    --g2: #FF9E7D;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* ---------- primitives ---------- */
+
+  .wrap {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+
+  section { padding: 4.5rem 0; }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  h1, h2, h3 { line-height: 1.2; letter-spacing: -0.02em; font-weight: 700; }
+
+  h1 { font-size: clamp(2.1rem, 6.2vw, 3.5rem); }
+
+  h2 {
+    font-size: clamp(1.5rem, 3.6vw, 2.1rem);
+    margin-top: 0.6rem;
+  }
+
+  h3 { font-size: 1.05rem; font-weight: 650; color: #E4E8EE; }
+
+  .lede {
+    color: var(--dim);
+    font-size: clamp(1rem, 2.1vw, 1.15rem);
+    max-width: 60ch;
+  }
+
+  .grad {
+    background: linear-gradient(100deg, var(--g1), var(--g2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .icon { width: 20px; height: 20px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .icon.fill { fill: currentColor; stroke: none; }
+  .icon.sm { width: 16px; height: 16px; }
+
+  a { color: inherit; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-height: 48px;
+    padding: 0.8rem 1.4rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: #E4E8EE;
+    font: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+  }
+
+  .btn:hover { background: var(--card-hi); border-color: #3A4250; }
+
+  .btn-primary {
+    background: linear-gradient(100deg, var(--g1), var(--g2));
+    color: #141013;
+    border-color: transparent;
+    font-weight: 700;
+  }
+
+  .btn-primary:hover { filter: brightness(1.06); background: linear-gradient(100deg, var(--g1), var(--g2)); }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .skip {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--card);
+    padding: 0.75rem 1rem;
+    border-radius: 0 0 var(--radius-sm) 0;
+    z-index: 100;
+  }
+  .skip:focus { left: 0; }
+
+  /* ---------- top bar ---------- */
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(18, 20, 24, 0.86);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .topbar .wrap {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 60px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #E4E8EE;
+    text-decoration: none;
+  }
+
+  .brand .mark {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: linear-gradient(140deg, var(--g1), var(--g2));
+    display: grid;
+    place-items: center;
+    color: #141013;
+  }
+
+  .navlinks {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    list-style: none;
+    font-size: 0.92rem;
+  }
+
+  .navlinks a { color: var(--dim); text-decoration: none; }
+  .navlinks a:hover { color: #E4E8EE; }
+
+  .topbar .btn { min-height: 38px; padding: 0.35rem 1rem; font-size: 0.9rem; }
+
+  @media (max-width: 720px) {
+    .navlinks li:not(.nav-cta) { display: none; }
+    .navlinks { margin-left: auto; }
+  }
+
+  /* ---------- hero ---------- */
+
+  .hero {
+    padding: 3.5rem 0 4rem;
+    border-bottom: 1px solid var(--line);
+    background:
+      radial-gradient(900px 420px at 82% -8%, rgba(139, 128, 249, 0.13), transparent 60%),
+      radial-gradient(600px 320px at 8% 0%, rgba(255, 92, 138, 0.08), transparent 62%);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .hero h1 { margin: 0.7rem 0 1rem; }
+
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 1.75rem;
+  }
+
+  .cta-meta {
+    margin-top: 0.9rem;
+    font-size: 0.88rem;
+    color: var(--dim);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 1.5rem;
+    list-style: none;
+  }
+
+  .chip {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--accent-dim);
+    border: 1px solid rgba(139, 128, 249, 0.28);
+    border-radius: 999px;
+    padding: 0.28rem 0.75rem;
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .hero-art { order: -1; }
+  }
+
+  /* ---------- phone mockup ---------- */
+
+  .hero-art { display: flex; justify-content: center; }
+
+  .phone {
+    width: min(268px, 78vw);
+    border-radius: 30px;
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, #191D25, #13161C);
+    padding: 0.85rem 0.8rem 1rem;
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9), 0 0 0 6px rgba(255, 255, 255, 0.015);
+  }
+
+  .phone-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--dim);
+    padding: 0.15rem 0.25rem 0.75rem;
+  }
+
+  .phone-top span { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .art {
+    aspect-ratio: 1;
+    border-radius: 14px;
+    background:
+      radial-gradient(120% 90% at 25% 15%, rgba(255, 255, 255, 0.16), transparent 55%),
+      linear-gradient(150deg, var(--accent), #4B3FB8 60%, #241F55);
+    animation: pulse 2.6s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(139, 128, 249, 0.22); }
+    50% { transform: scale(1.018); box-shadow: 0 0 34px 4px rgba(139, 128, 249, 0.16); }
+  }
+
+  .track { margin-top: 0.9rem; }
+  .track b { display: block; color: #E9ECF1; font-size: 0.95rem; font-weight: 650; }
+  .track small { color: var(--dim); font-size: 0.8rem; }
+
+  .wave {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 40px;
+    margin: 0.9rem 0 0.15rem;
+  }
+
+  .wave i {
+    flex: 1;
+    height: var(--h, 40%);
+    border-radius: 2px;
+    background: #39404E;
+  }
+
+  .wave i.on { background: var(--accent); }
+
+  .wave-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.68rem;
+    color: var(--dim);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.85rem;
+    color: var(--dim);
+  }
+
+  .controls .play {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #14121F;
+    display: grid;
+    place-items: center;
+  }
+
+  .controls .liked { color: var(--g1); }
+
+  /* ---------- generic cards / sections ---------- */
+
+  .band {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .note-band {
+    background: var(--bg-deep);
+  }
+
+  .note {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    max-width: 72ch;
+  }
+
+  .note .icon { color: var(--accent); margin-top: 0.28rem; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: 1rem;
+  }
+
+  .feature {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 1.75rem;
+    align-items: start;
+  }
+
+  .feature + .feature { margin-top: 1rem; }
+
+  @media (max-width: 860px) {
+    .feature { grid-template-columns: 1fr; }
+  }
+
+  .feature-head {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .feature-head .badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: var(--accent-dim);
+    border: 1px solid rgba(139, 128, 249, 0.28);
+    color: var(--accent);
+    display: grid;
+    place-items: center;
+    flex: none;
+  }
+
+  .feature-head h3 { font-size: 1.15rem; }
+
+  ul.facts {
+    list-style: none;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  ul.facts.two {
+    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+    gap: 0.7rem 1.75rem;
+  }
+
+  ul.facts li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    font-size: 0.95rem;
+  }
+
+  ul.facts .icon {
+    color: var(--accent);
+    margin-top: 0.34rem;
+    width: 15px;
+    height: 15px;
+    stroke-width: 2.4;
+  }
+
+  /* ---------- privacy ---------- */
+
+  .privacy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+    gap: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  .net-item h3 { font-size: 0.98rem; margin-bottom: 0.15rem; }
+  .net-item p { font-size: 0.9rem; color: var(--dim); }
+  .net-item .icon { color: var(--accent); margin-bottom: 0.7rem; }
+
+  /* ---------- app-surface mockups ---------- */
+
+  .mock {
+    background: linear-gradient(180deg, #191D25, #14171D);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1rem;
+    box-shadow: 0 24px 48px -32px rgba(0, 0, 0, 0.9);
+  }
+
+  .mock-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 0.85rem;
+    display: block;
+  }
+
+  .mock + .mock { margin-top: 1rem; }
+
+  /* download list */
+  .dl-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.55rem 0;
+  }
+
+  .dl-row + .dl-row { border-top: 1px solid rgba(255, 255, 255, 0.04); }
+
+  .dl-thumb {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: linear-gradient(150deg, #3B3480, #241F55);
+    flex: none;
+  }
+
+  .dl-body { flex: 1; min-width: 0; }
+
+  .dl-body b {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #E4E8EE;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .bar {
+    height: 4px;
+    border-radius: 2px;
+    background: #2C3240;
+    margin-top: 0.4rem;
+    overflow: hidden;
+  }
+
+  .bar i {
+    display: block;
+    height: 100%;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+
+  .bar.done i { background: #3DD68C; }
+
+  .dl-state {
+    font-size: 0.72rem;
+    color: var(--dim);
+    font-variant-numeric: tabular-nums;
+    flex: none;
+  }
+
+  .dl-state.ok { color: #3DD68C; }
+
+  .log {
+    margin-top: 0.9rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.72rem;
+    color: var(--dim);
+    line-height: 1.9;
+  }
+
+  .log span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .log span.live { color: var(--accent); }
+
+  /* lyrics */
+  .lyrics p {
+    font-size: 0.95rem;
+    color: #5D6675;
+    padding: 0.2rem 0;
+    transition: color 0.2s ease;
+  }
+
+  .lyrics p.now {
+    color: #EDF0F4;
+    font-weight: 650;
+    font-size: 1.05rem;
+  }
+
+  .sync-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.9rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: var(--accent-dim);
+    border: 1px solid rgba(139, 128, 249, 0.3);
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* mini player */
+  .mini {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    background: var(--card-hi);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 0.6rem 0.75rem;
+  }
+
+  .grab {
+    display: block;
+    width: 34px;
+    height: 3px;
+    border-radius: 2px;
+    background: #3A4250;
+    margin: 0 auto 0.5rem;
+  }
+
+  .mini .dl-thumb { width: 36px; height: 36px; }
+  .mini b { display: block; font-size: 0.85rem; color: #E4E8EE; }
+  .mini small { color: var(--dim); font-size: 0.75rem; }
+  .mini .sp { flex: 1; }
+  .mini .btn-ico { color: var(--text); }
+
+  /* themes */
+  .themes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 1.2rem;
+  }
+
+  .theme {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--dim);
+  }
+
+  .theme i {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  /* ---------- screenshots ---------- */
+
+  .shots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  .shot { margin: 0; }
+
+  .shot .frame {
+    position: relative;
+    aspect-ratio: 9 / 18;
+    border-radius: 22px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+  }
+
+  .shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .shot.is-empty .frame {
+    border-style: dashed;
+    background: repeating-linear-gradient(135deg, #171B22, #171B22 10px, #1B2029 10px, #1B2029 20px);
+  }
+
+  .shot .slot-note {
+    display: none;
+    text-align: center;
+    padding: 1rem;
+    color: var(--dim);
+    font-size: 0.8rem;
+  }
+
+  .shot.is-empty .slot-note { display: block; }
+
+  .shot .slot-note code {
+    display: block;
+    margin-top: 0.35rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--accent);
+    font-size: 0.78rem;
+  }
+
+  .shot figcaption {
+    margin-top: 0.6rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--dim);
+  }
+
+  /* ---------- download ---------- */
+
+  .dl-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+    align-items: start;
+  }
+
+  @media (max-width: 800px) {
+    .dl-panel { grid-template-columns: 1fr; }
+  }
+
+  .spec {
+    list-style: none;
+    margin-top: 1.35rem;
+    display: grid;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .spec li { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; }
+  .spec span:first-child { color: var(--dim); }
+  .spec span:last-child { color: #E4E8EE; font-weight: 600; }
+
+  ol.steps {
+    list-style: none;
+    counter-reset: step;
+    display: grid;
+    gap: 1rem;
+  }
+
+  ol.steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 0.9rem;
+    font-size: 0.95rem;
+  }
+
+  ol.steps li::before {
+    content: counter(step);
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent-dim);
+    border: 1px solid rgba(139, 128, 249, 0.3);
+    color: var(--accent);
+    display: grid;
+    place-items: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .warn {
+    margin-top: 1.5rem;
+    padding: 1rem 1.1rem;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 158, 125, 0.07);
+    border: 1px solid rgba(255, 158, 125, 0.24);
+    font-size: 0.9rem;
+    color: var(--text);
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .warn .icon { color: var(--g2); flex: none; margin-top: 0.2rem; }
+
+  /* ---------- footer ---------- */
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2.5rem 0 3rem;
+    color: var(--dim);
+    font-size: 0.88rem;
+  }
+
+  .foot-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  footer a { color: var(--dim); }
+  footer a:hover { color: #E4E8EE; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .art { animation: none; }
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M4 20h16"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></symbol>
+  <symbol id="i-wave" viewBox="0 0 24 24"><path d="M4 10v4M8 6v12M12 8v8M16 4v16M20 9v6"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l2.2 6.3L20.5 11l-6.3 1.7L12 19l-2.2-6.3L3.5 11l6.3-1.7z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.3-3 7.9-7 9-4-1.1-7-4.7-7-9V6z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M18 6v12l-9-6zM6 6v12"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M6 6v12l9-6zM18 6v12"/></symbol>
+  <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M4 6h3l10 12h3M17 3l3 3-3 3M4 18h3l3-3.6M14 8.6L17 6M17 21l3-3-3-3"/></symbol>
+  <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M4 10V8a3 3 0 013-3h10M17 2.5L20 5.5 17 8.5M20 14v2a3 3 0 01-3 3H7M7 15.5L4 18.5 7 21.5"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.1A3.9 3.9 0 0112 8.6a3.9 3.9 0 017 2.3c0 4.7-7 9.1-7 9.1z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l4.6 4.6L19.5 6.8"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-dots" viewBox="0 0 24 24"><path d="M12 5.6h.01M12 12h.01M12 18.4h.01" stroke-width="2.6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><path d="M12 21a9 9 0 100-18 9 9 0 000 18zM12 11v5M12 7.6h.01"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><path d="M12 21a9 9 0 100-18 9 9 0 000 18zM3.2 9h17.6M3.2 15h17.6M12 3a15 15 0 010 18 15 15 0 010-18z"/></symbol>
+  <symbol id="i-lyrics" viewBox="0 0 24 24"><path d="M5 5h14M5 10h9M5 15h14M5 20h6"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24"><path d="M6.5 7.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM6.5 21.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8.6 8.9L19 19M19 5L8.6 15.1"/></symbol>
+</svg>
+
+<a class="skip" href="#download">Skip to download</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <span class="mark"><svg class="icon sm fill" aria-hidden="true"><use href="#i-play"/></svg></span>
+      Tenata
+    </a>
+    <ul class="navlinks">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#privacy">Privacy</a></li>
+      <li><a href="#screens">Screens</a></li>
+      <li class="nav-cta"><a class="btn btn-primary" href="#download">Download</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Tenata &middot; Android &middot; Version 1.21</p>
+        <h1>A downloader and a music player <span class="grad">in one.</span></h1>
+        <p class="lede">
+          Search or paste a YouTube link, and the audio is saved to your phone as an ordinary
+          file. Then it plays from a library that's yours — playlists, likes, synced lyrics,
+          an equalizer, transitions between tracks, a home-screen widget and Android Auto.
+        </p>
+
+        <ul class="chips">
+          <li class="chip">No accounts</li>
+          <li class="chip">No ads</li>
+          <li class="chip">No analytics</li>
+          <li class="chip">No telemetry</li>
+        </ul>
+
+        <div class="cta-row">
+          <a class="btn btn-primary" href="Tenata.apk" download>
+            <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
+            Download Tenata.apk
+          </a>
+          <a class="btn" href="#install">How to install</a>
+        </div>
+        <p class="cta-meta">Version 1.21 &middot; ~58&nbsp;MB &middot; Android 11 or newer &middot; 64-bit ARM phones</p>
+      </div>
+
+      <div class="hero-art">
+        <div class="phone" role="img" aria-label="Mockup of the Tenata player: album artwork, a draggable waveform, and playback controls.">
+          <div class="phone-top">
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>
+            <span>Now playing</span>
+            <svg class="icon" aria-hidden="true"><use href="#i-dots"/></svg>
+          </div>
+          <div class="art"></div>
+          <div class="track">
+            <b>Track title</b>
+            <small>Artist</small>
+          </div>
+          <div class="wave" aria-hidden="true">
+            <i class="on" style="--h:26%"></i><i class="on" style="--h:44%"></i><i class="on" style="--h:62%"></i>
+            <i class="on" style="--h:48%"></i><i class="on" style="--h:74%"></i><i class="on" style="--h:88%"></i>
+            <i class="on" style="--h:64%"></i><i class="on" style="--h:38%"></i><i class="on" style="--h:56%"></i>
+            <i class="on" style="--h:78%"></i><i class="on" style="--h:94%"></i><i class="on" style="--h:70%"></i>
+            <i class="on" style="--h:46%"></i><i class="on" style="--h:34%"></i>
+            <i style="--h:58%"></i><i style="--h:80%"></i><i style="--h:96%"></i><i style="--h:72%"></i>
+            <i style="--h:50%"></i><i style="--h:36%"></i><i style="--h:60%"></i><i style="--h:84%"></i>
+            <i style="--h:68%"></i><i style="--h:44%"></i><i style="--h:64%"></i><i style="--h:88%"></i>
+            <i style="--h:56%"></i><i style="--h:40%"></i><i style="--h:66%"></i><i style="--h:90%"></i>
+            <i style="--h:60%"></i><i style="--h:42%"></i><i style="--h:32%"></i><i style="--h:54%"></i>
+          </div>
+          <div class="wave-meta"><span>1:24</span><span>3:41</span></div>
+          <div class="controls">
+            <svg class="icon" aria-hidden="true"><use href="#i-shuffle"/></svg>
+            <svg class="icon fill" aria-hidden="true"><use href="#i-prev"/></svg>
+            <span class="play"><svg class="icon fill" aria-hidden="true"><use href="#i-play"/></svg></span>
+            <svg class="icon fill" aria-hidden="true"><use href="#i-next"/></svg>
+            <svg class="icon liked fill" aria-hidden="true"><use href="#i-heart"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHAT IT IS ============ -->
+  <section class="band note-band">
+    <div class="wrap">
+      <div class="note">
+        <svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>
+        <p>
+          Tenata is a personal project, built by one developer — Tenlong Hwong. It is not on
+          the Play Store and there is no company behind it: you install it yourself from the
+          APK below, and everything it does happens on your own phone.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRIVACY ============ -->
+  <section id="privacy">
+    <div class="wrap">
+      <p class="eyebrow">Privacy</p>
+      <h2>Your library never leaves the phone.</h2>
+      <p class="lede" style="margin-top:.8rem">
+        No accounts, no ads, no analytics, no telemetry. Songs, playlists, likes and history
+        stay on your device. Tenata goes online only for the three things that need it:
+      </p>
+
+      <div class="privacy-grid">
+        <div class="card net-item">
+          <svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>
+          <h3>YouTube</h3>
+          <p>To search for songs and download the audio.</p>
+        </div>
+        <div class="card net-item">
+          <svg class="icon" aria-hidden="true"><use href="#i-lyrics"/></svg>
+          <h3>lrclib.net</h3>
+          <p>To find synced lyrics for what you're playing.</p>
+        </div>
+        <div class="card net-item">
+          <svg class="icon" aria-hidden="true"><use href="#i-scissors"/></svg>
+          <h3>SponsorBlock</h3>
+          <p>To find non-music segments so they can be cut.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section id="features" class="band" style="border-top:1px solid var(--line)">
+    <div class="wrap">
+      <p class="eyebrow">Features</p>
+      <h2>Everything it does.</h2>
+      <p class="lede" style="margin-top:.8rem;margin-bottom:2.5rem">
+        The whole list — nothing here is a coming-soon.
+      </p>
+
+      <!-- Download -->
+      <div class="feature">
+        <div class="card">
+          <div class="feature-head">
+            <span class="badge"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg></span>
+            <h3>Download</h3>
+          </div>
+          <ul class="facts">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Paste a YouTube link, or type a song name and tap the suggestions.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Picked songs stack into a batch list and download in one go, with a live progress log.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Choose the save folder with the phone's own file explorer, plus audio format and quality.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Five switches: grab a whole playlist from one link, skip anything downloaded before, even out loudness between songs, cut non-music sections with SponsorBlock, and hold downloads until Wi-Fi.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Share a YouTube link to Tenata from any app to start a download.</span></li>
+          </ul>
+        </div>
+
+        <div class="mock">
+          <span class="mock-label">Batch downloading</span>
+          <div class="dl-row">
+            <span class="dl-thumb"></span>
+            <span class="dl-body">
+              <b>First track</b>
+              <span class="bar done"><i style="width:100%"></i></span>
+            </span>
+            <span class="dl-state ok">Done</span>
+          </div>
+          <div class="dl-row">
+            <span class="dl-thumb"></span>
+            <span class="dl-body">
+              <b>Second track</b>
+              <span class="bar"><i style="width:62%"></i></span>
+            </span>
+            <span class="dl-state">62%</span>
+          </div>
+          <div class="dl-row">
+            <span class="dl-thumb"></span>
+            <span class="dl-body">
+              <b>Third track</b>
+              <span class="bar"><i style="width:0%"></i></span>
+            </span>
+            <span class="dl-state">Queued</span>
+          </div>
+          <div class="log">
+            <span>&gt; playlist detected — 3 items</span>
+            <span>&gt; skipping 1 already downloaded</span>
+            <span class="live">&gt; evening out loudness…</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Home & Library -->
+      <div class="feature" style="grid-template-columns:1fr">
+        <div class="card">
+          <div class="feature-head">
+            <span class="badge"><svg class="icon" aria-hidden="true"><use href="#i-grid"/></svg></span>
+            <h3>Home &amp; Library</h3>
+          </div>
+          <ul class="facts two">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Search your own music as you type, with a one-tap handoff to YouTube search for anything you don't have yet.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Shelves for recently played, recently added, most played, and your playlists.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Listening stats: plays, time listened, top songs and artists.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Library tabs for songs, playlists, albums and artists — each with search and sort.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Swipe a song right to queue it, left to like it. Long-press for play-next, queue, add-to-playlist, share, edit details or delete.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Play all, shuffle all, and multi-select — including a find-duplicates helper.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Playlist import and export as .m3u files.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Player -->
+      <div class="feature">
+        <div class="card">
+          <div class="feature-head">
+            <span class="badge"><svg class="icon" aria-hidden="true"><use href="#i-wave"/></svg></span>
+            <h3>Player</h3>
+          </div>
+          <ul class="facts">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>A now-playing bar that drags up into the full player.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Artwork pulses with the music, and the waveform is draggable to scrub.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Shuffle, repeat, like, playback speed, sleep timer, equalizer and audio effects, an Up Next queue, and configurable transitions between tracks.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Synced lyrics found automatically and highlighted line by line, with a drag pill to nudge the timing.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Controls from the notification, the lock screen, a home-screen widget, and Android Auto.</span></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="mock lyrics">
+            <span class="mock-label">Synced lyrics</span>
+            <p>the line that played before</p>
+            <p class="now">the line playing right now</p>
+            <p>the line coming next</p>
+            <p>and the one after that</p>
+            <span class="sync-pill">
+              <svg class="icon sm" aria-hidden="true"><use href="#i-chevron"/></svg>
+              nudge timing &minus;0.3s
+            </span>
+          </div>
+
+          <div class="mock">
+            <span class="mock-label">Now-playing bar</span>
+            <div class="mini-wrap">
+              <span class="grab"></span>
+              <div class="mini">
+                <span class="dl-thumb"></span>
+                <span>
+                  <b>Track title</b>
+                  <small>Artist</small>
+                </span>
+                <span class="sp"></span>
+                <svg class="icon fill btn-ico" aria-hidden="true"><use href="#i-play"/></svg>
+                <svg class="icon fill btn-ico" aria-hidden="true"><use href="#i-next"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Around it -->
+      <div class="feature" style="grid-template-columns:1fr">
+        <div class="card">
+          <div class="feature-head">
+            <span class="badge"><svg class="icon" aria-hidden="true"><use href="#i-sparkle"/></svg></span>
+            <h3>And around it</h3>
+          </div>
+          <ul class="facts two">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Multiple profiles, each with its own playlists, likes and history.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>Backup and restore of playlists, likes and history to a file.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>A storage breakdown of what your music takes up.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>A first-run guided tour of every feature.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span>The app keeps a current copy of its own installer (Tenata.apk) next to your backup — so the folder that holds your music can restore the whole app.</span></li>
+          </ul>
+
+          <p style="margin-top:1.4rem;font-size:.95rem;color:var(--dim)">Four color themes, all on the same dark base:</p>
+          <div class="themes">
+            <span class="theme"><i style="background:#8B80F9"></i>Tenata &middot; periwinkle</span>
+            <span class="theme"><i style="background:#A855F7"></i>Shadow &middot; purple</span>
+            <span class="theme"><i style="background:#E5484D"></i>Swoop &middot; crimson</span>
+            <span class="theme"><i style="background:#3DD68C"></i>Dagger &middot; green</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREENSHOTS ============ -->
+  <section id="screens" class="band">
+    <div class="wrap">
+      <p class="eyebrow">Screens</p>
+      <h2>A look at the app.</h2>
+
+      <div class="shots">
+        <figure class="shot" data-slot="shot-1.png">
+          <div class="frame">
+            <img src="shot-1.png" alt="Tenata home screen" loading="lazy" width="1080" height="2160">
+            <div class="slot-note">Screenshot slot<code>shot-1.png</code></div>
+          </div>
+          <figcaption>Home</figcaption>
+        </figure>
+        <figure class="shot" data-slot="shot-2.png">
+          <div class="frame">
+            <img src="shot-2.png" alt="Tenata player screen" loading="lazy" width="1080" height="2160">
+            <div class="slot-note">Screenshot slot<code>shot-2.png</code></div>
+          </div>
+          <figcaption>Player</figcaption>
+        </figure>
+        <figure class="shot" data-slot="shot-3.png">
+          <div class="frame">
+            <img src="shot-3.png" alt="Tenata download screen" loading="lazy" width="1080" height="2160">
+            <div class="slot-note">Screenshot slot<code>shot-3.png</code></div>
+          </div>
+          <figcaption>Downloads</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DOWNLOAD ============ -->
+  <section id="download">
+    <div class="wrap">
+      <p class="eyebrow">Download</p>
+      <h2>Get Tenata.</h2>
+
+      <div class="dl-panel" style="margin-top:2rem">
+        <div class="card">
+          <a class="btn btn-primary" href="Tenata.apk" download style="width:100%">
+            <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
+            Download Tenata.apk
+          </a>
+          <ul class="spec">
+            <li><span>Version</span><span>1.21</span></li>
+            <li><span>Size</span><span>~58 MB</span></li>
+            <li><span>Requires</span><span>Android 11 or newer</span></li>
+            <li><span>Devices</span><span>64-bit ARM phones</span></li>
+          </ul>
+        </div>
+
+        <div id="install">
+          <h3 style="margin-bottom:1.2rem">Installing it</h3>
+          <ol class="steps">
+            <li><span>Download <strong>Tenata.apk</strong> on the phone you want it on.</span></li>
+            <li><span>Open the file — from the download notification, or your Files app.</span></li>
+            <li><span>When Android asks, allow your browser or files app to install unknown apps.</span></li>
+            <li><span>Tap <strong>Install</strong>.</span></li>
+          </ol>
+
+          <div class="warn">
+            <svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg>
+            <p>
+              Android warns about apps installed from outside the Play Store. That warning is
+              expected here — Tenata is a personal app you are sideloading yourself.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <p>Tenata &middot; Version 1.21 &middot; Built by Tenlong Hwong</p>
+    <p>&copy; 2026 Tenlong Hwong &middot; <a href="../">tenlong-hwong.github.io</a></p>
+  </div>
+</footer>
+
+<script>
+  // Screenshot slots: if a file isn't there yet, show the labelled placeholder instead
+  // of a broken image. Runs on each <img> that failed before this script parsed, too.
+  (function () {
+    var shots = document.querySelectorAll('.shot img');
+    Array.prototype.forEach.call(shots, function (img) {
+      function markEmpty() {
+        var fig = img.closest('.shot');
+        if (fig) fig.classList.add('is-empty');
+        img.remove();
+      }
+      if (img.complete && img.naturalWidth === 0) {
+        markEmpty();
+      } else {
+        img.addEventListener('error', markEmpty);
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
