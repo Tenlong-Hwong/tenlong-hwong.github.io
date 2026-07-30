@@ -706,6 +706,10 @@
     color: var(--dim);
   }
 
+  /* Consecutive fallbacks sit closer together than the first sits below the specs,
+     so they read as one quiet block rather than two separate afterthoughts. */
+  .alt-dl + .alt-dl { margin-top: 0.65rem; }
+
   .alt-dl a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
   .alt-dl a:hover { color: #E4E8EE; }
 
@@ -1159,17 +1163,22 @@
             <li><span>Devices</span><span>64-bit ARM phones</span></li>
           </ul>
 
-          <!-- 32-bit fallback, kept deliberately quiet: every phone made since roughly
-               2015 wants the 64-bit build, so this is framed as the fix for a failed
-               install rather than a choice to weigh up. Its "51 MB" is static and will
-               drift by a megabyte or two — the release script only rewrites the 64-bit
-               figures above, and nothing here may look like the version or size strings
-               it matches on, or it would get rewritten with the 64-bit values. -->
+          <!-- Fallback builds, kept deliberately quiet: the 64-bit download above is right
+               for every phone made since roughly 2015, so these are framed as the fix when
+               it won't install rather than a menu to choose from. Their sizes are static
+               and will drift by a megabyte or two — the release script only rewrites the
+               64-bit figures above, and nothing here may look like the version or size
+               strings it matches on, or it would get rewritten with the 64-bit values. -->
           <p class="alt-dl">
             On an older phone? If Android says the app can&rsquo;t be installed, your phone is
             32-bit &mdash; install the
             <a href="https://github.com/Tenlong-Hwong/tenlong-hwong.github.io/releases/latest/download/Tenata-32bit.apk" rel="noopener">32-bit build</a>
-            instead. Same app and version, Android 11 or newer, 51 MB.
+            instead (51 MB).
+          </p>
+          <p class="alt-dl">
+            On an Intel Chromebook? Get the
+            <a href="https://github.com/Tenlong-Hwong/tenlong-hwong.github.io/releases/latest/download/Tenata-x86_64.apk" rel="noopener">Chromebook build</a>
+            (61 MB). Both are the same app and version, and need Android 11 or newer.
           </p>
         </div>
 
