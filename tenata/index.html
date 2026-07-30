@@ -698,6 +698,17 @@
   .spec span:first-child { color: var(--dim); }
   .spec span:last-child { color: #E4E8EE; font-weight: 600; }
 
+  /* Footnote-sized on purpose — see the comment on .alt-dl's markup. */
+  .alt-dl {
+    margin-top: 1.25rem;
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: var(--dim);
+  }
+
+  .alt-dl a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  .alt-dl a:hover { color: #E4E8EE; }
+
   ol.steps {
     list-style: none;
     counter-reset: step;
@@ -1147,6 +1158,19 @@
             <li><span>Requires</span><span>Android 11 or newer</span></li>
             <li><span>Devices</span><span>64-bit ARM phones</span></li>
           </ul>
+
+          <!-- 32-bit fallback, kept deliberately quiet: every phone made since roughly
+               2015 wants the 64-bit build, so this is framed as the fix for a failed
+               install rather than a choice to weigh up. Its "51 MB" is static and will
+               drift by a megabyte or two — the release script only rewrites the 64-bit
+               figures above, and nothing here may look like the version or size strings
+               it matches on, or it would get rewritten with the 64-bit values. -->
+          <p class="alt-dl">
+            On an older phone? If Android says the app can&rsquo;t be installed, your phone is
+            32-bit &mdash; install the
+            <a href="https://github.com/Tenlong-Hwong/tenlong-hwong.github.io/releases/latest/download/Tenata-32bit.apk" rel="noopener">32-bit build</a>
+            instead. Same app and version, Android 11 or newer, 51 MB.
+          </p>
         </div>
 
         <div id="install">
