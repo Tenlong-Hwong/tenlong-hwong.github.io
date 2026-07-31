@@ -722,25 +722,30 @@
 
   /* The whole row is the link, not just the name — a 56px target beats an
      8px run of underlined text, especially on the phones this section is for. */
+  /* Sits a step ABOVE the card it's on rather than washed into it — at
+     rgba(...,0.02) the rows read as disabled next to the bold spec values. */
   .ob-row {
     display: flex;
     align-items: center;
     gap: 0.85rem;
-    padding: 0.7rem 0.85rem;
-    border: 1px solid var(--line);
+    padding: 0.75rem 0.9rem;
+    border: 1px solid #333B49;
     border-radius: var(--radius-sm);
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--card-hi);
     color: var(--text);
     text-decoration: none;
     transition: background 0.15s ease, border-color 0.15s ease;
   }
 
-  .ob-row:hover { background: var(--card-hi); border-color: #3A4250; }
+  .ob-row:hover { background: #2A313E; border-color: var(--accent-line); }
 
   .ob-main { flex: 1; min-width: 0; }
-  .ob-name { display: block; font-size: 0.94rem; font-weight: 600; color: #E4E8EE; }
-  .ob-note { display: block; font-size: 0.8rem; line-height: 1.45; color: var(--dim); }
-  .ob-size { font-size: 0.85rem; color: var(--dim); white-space: nowrap; }
+  .ob-name { display: block; font-size: 0.98rem; font-weight: 600; color: #F0F3F7; }
+  /* A touch brighter than --dim: the lifted row background costs the dim grey
+     enough contrast (4.8:1) to be worth buying back on the line that tells
+     someone whether the row is for them. */
+  .ob-note { display: block; font-size: 0.8rem; line-height: 1.45; color: #96A0AE; }
+  .ob-size { font-size: 0.85rem; font-weight: 600; color: var(--text); white-space: nowrap; }
   .ob-row .icon { color: var(--accent); }
 
   ol.steps {
@@ -1222,7 +1227,7 @@
                 <a class="ob-row" href="https://github.com/Tenlong-Hwong/tenlong-hwong.github.io/releases/latest/download/Tenata-x86_64.apk" rel="noopener">
                   <span class="ob-main">
                     <span class="ob-name">Intel Chromebooks</span>
-                    <span class="ob-note">Try this one first on a Chromebook</span>
+                    <span class="ob-note">Nearly every Chromebook needs this one</span>
                   </span>
                   <span class="ob-size">61 MB</span>
                   <svg class="icon sm" aria-hidden="true"><use href="#i-download"/></svg>
